@@ -1,10 +1,21 @@
 import React from "react";
-import { useState } from "react";
-import { Container, Box, Text, Link, Tabs } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Container, Box, Text, Tabs } from "@chakra-ui/react";
 import Login from "../myComponents/Authentication/Login";
 import SignUp from "../myComponents/Authentication/SignUp";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (!userInfo) {
+      navigate("/chats");
+    }
+  }, [navigate]);
+
   const [value, setValue] = useState("first");
   return (
     <Container maxW="xl" centerContent>

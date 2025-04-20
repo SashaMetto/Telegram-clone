@@ -4,3 +4,11 @@
   min-height: 100vh;
   display: flex;
 }
+
+input:focus {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}

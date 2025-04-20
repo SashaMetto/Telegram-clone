@@ -12,7 +12,6 @@ const SignUp = () => {
   const [confirmpassword, setConfirmpassword] = useState();
   const [password, setPassword] = useState();
   const [pic, setPic] = useState();
-  //  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => setShow(!show);
@@ -22,7 +21,6 @@ const SignUp = () => {
     let reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
-      console.log(reader.result);
       setPic(reader.result);
     };
     reader.onerror = (error) => {
@@ -31,13 +29,11 @@ const SignUp = () => {
   }
 
   const submitHandler = async () => {
-    //  setLoading(true);
     if (!name || !email || !password || !confirmpassword) {
       toaster.create({
         description: "Пожалуйста, заполните все поля",
         type: "warning",
       });
-      //   setLoading(false);
       return;
     }
     if (password !== confirmpassword) {
@@ -45,7 +41,6 @@ const SignUp = () => {
         description: "Пароли не совпадают",
         type: "warning",
       });
-      //   setLoading(false);
       return;
     }
 
@@ -67,14 +62,12 @@ const SignUp = () => {
       });
 
       localStorage.setItem("userInfo", JSON.stringify(data));
-      //    setLoading(false);
       navigate("/chats");
     } catch (error) {
       toaster.create({
         description: `Ошибка ${error.response.data.message}`,
         type: "error",
       });
-      //    setLoading(false);
     }
   };
 
