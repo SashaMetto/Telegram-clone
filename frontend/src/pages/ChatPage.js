@@ -7,6 +7,7 @@ import ChatBox from "../myComponents/ChatBox";
 const backgroundImage = require("../assets/background.jpg");
 const ChatPage = () => {
   const { user } = ChatState();
+  const [fetchAgain, setFetchAgain] = useState(false);
   return (
     <div
       style={{
@@ -22,10 +23,12 @@ const ChatPage = () => {
         display="flex"
         justifyContent={"space-between"}
         width="100%"
-        height={"91.5vh"}
+        height="94%"
       >
-        {user && <MyChats />}
-        {user && <ChatBox />}
+        {user && <MyChats fetchAgain={fetchAgain} />}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
       </Box>
     </div>
   );

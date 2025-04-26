@@ -1,6 +1,6 @@
 import React from "react";
 import { ChatState } from "../Context/ChatProvider";
-import { Toaster, toaster } from "../components/ui/toaster";
+import { toaster } from "../components/ui/toaster";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import {
@@ -16,7 +16,7 @@ import writeIcon from "../assets/write.png";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../config/ChatLogic";
 import GroupChatDrawer from "./misc/GroupChatDrawer";
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const [warning, setWarning] = useState(true);
@@ -43,17 +43,19 @@ const MyChats = () => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
     // eslint-disable-next-line
-  }, []);
+  }, [fetchAgain]);
+
   return (
     <Box
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDirection="column"
       alignItems="flex-end"
-      py={3}
       bg="#212121"
-      w={{ base: "100%", md: "31%" }}
+      w={{ base: "100%", md: "32%" }}
       height="100%"
+      minHeight="100%"
       borderWidth="1px"
+      borderTop={"1px solid #212121"}
     >
       <Box
         fontSize="15px"
@@ -100,19 +102,23 @@ const MyChats = () => {
                   <Avatar.Fallback name={user.name} />
                   <Avatar.Image src={user.pic} />
                 </Avatar.Root>
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
-                {chat.latestMessage && (
-                  <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.name} : </b>
-                    {chat.latestMessage.content.length > 50
-                      ? chat.latestMessage.content.substring(0, 51) + "..."
-                      : chat.latestMessage.content}
+                <Stack>
+                  <Text>
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
                   </Text>
-                )}
+                  {chat.latestMessage && (
+                    <Text
+                      fontSize="xs"
+                      color={selectedChat !== chat ? "#A8AAAA" : "white"}
+                    >
+                      {chat.latestMessage.content.length > 50
+                        ? chat.latestMessage.content.substring(0, 51) + "..."
+                        : chat.latestMessage.content}
+                    </Text>
+                  )}
+                </Stack>
               </Box>
             ))}
           </Stack>
@@ -123,6 +129,8 @@ const MyChats = () => {
       <Menu.Root positioning={{ placement: "top-end" }}>
         <Menu.Trigger asChild>
           <Button
+            position="absolute"
+            bottom="15px"
             variant="ghost"
             width="55px"
             height="55px"

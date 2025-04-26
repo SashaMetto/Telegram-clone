@@ -3,6 +3,7 @@
 .App {
   min-height: 100vh;
   display: flex;
+  overflow-y: hidden;
 }
 
 input:focus {
@@ -11,4 +12,23 @@ input:focus {
 
 button:focus {
   outline: none;
+}
+
+.chat-div {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 50vw;
+  height: 80vh;
+  scrollbar-width: "none";
+  overflow-y: scroll;
+  padding-right: 7vw;
+}
+.chat-div::-webkit-scrollbar,
+.App::-webkit-scrollbar {
+  display: none;
+}
+.chat-div,
+.App {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

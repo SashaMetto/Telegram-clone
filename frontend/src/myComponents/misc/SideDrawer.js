@@ -28,7 +28,14 @@ const SideDrawer = () => {
   const [loadingChat, setLoadingChat] = useState();
 
   let navigate = useNavigate();
-  const { setSelectedChat, user, chats, setChats } = ChatState();
+  const {
+    selectedChat,
+    setSelectedChat,
+    user,
+    chats,
+    setChats,
+    setSelectedUser,
+  } = ChatState();
 
   const handleUserSearch = async () => {
     try {
@@ -53,8 +60,8 @@ const SideDrawer = () => {
     }
   };
 
-  const accessChat = async (userId) => {
-    console.log("pressed");
+  const accessChat = async (userId, res) => {
+    console.log(res);
     try {
       setLoadingChat(true);
       const config = {
@@ -67,6 +74,7 @@ const SideDrawer = () => {
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
       setLoadingChat(false);
+      setSelectedUser(res);
     } catch (error) {
       toaster.create({
         title: "Ошибка",
@@ -87,10 +95,14 @@ const SideDrawer = () => {
 
   return (
     <>
-      <Box display="flex">
+      <Box
+        display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+        background="#212121"
+        width="32%"
+      >
         <Menu.Root>
           <Menu.Trigger asChild>
-            <Button variant="ghost">
+            <Button variant="ghost" marginTop="5px">
               <img src={menuIcon} width="20px" height="20px" />
             </Button>
           </Menu.Trigger>
@@ -112,11 +124,11 @@ const SideDrawer = () => {
                   borderRadius="lg"
                   background="#212121"
                 >
-                  <Avatar.Root marginRight="20px">
+                  <Avatar.Root marginRight="20px" marginLeft="10px">
                     <Avatar.Fallback name={user.name} />
                     <Avatar.Image src={user.pic} />
                   </Avatar.Root>
-                  <Box>
+                  <Box marginRight="20px">
                     <Text>{user.name}</Text>
                   </Box>
                 </Box>
@@ -124,7 +136,7 @@ const SideDrawer = () => {
                 <Menu.Item value="new-txt-c">Избранное</Menu.Item>
                 <Menu.Item value="new-txt-d">Архив</Menu.Item>
                 <Menu.Item value="new-txt-e">Мои истории</Menu.Item>
-                <Drawer.Root placement="start">
+                <Drawer.Root placement="start" size="xs">
                   <Drawer.Trigger asChild>
                     <Menu.Item value="new-txt-f">Контакты</Menu.Item>
                   </Drawer.Trigger>
@@ -161,7 +173,9 @@ const SideDrawer = () => {
                               <UserListItem
                                 key={user._id}
                                 user={user}
-                                handleFunction={() => accessChat(user._id)}
+                                handleFunction={() =>
+                                  accessChat(user._id, user.name)
+                                }
                               />
                             ))
                           )}
@@ -191,6 +205,9 @@ const SideDrawer = () => {
           padding="12px 20px 12px 50px"
           value={userSearch}
           onChange={(e) => setUserSearch(e.target.value)}
+          width="370px"
+          marginRight="20px"
+          marginTop="5px"
         />
       </Box>
     </>
