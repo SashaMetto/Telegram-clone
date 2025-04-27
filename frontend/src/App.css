@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;1,300&display=swap");
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+input:focus {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+.chat-div {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 50vw;
+  height: 80vh;
+  scrollbar-width: "none";
+  overflow-y: scroll;
+  padding-right: 7vw;
+}
+.chat-div::-webkit-scrollbar,
+.App::-webkit-scrollbar {
+  display: none;
+}
+.chat-div,
+.App {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
