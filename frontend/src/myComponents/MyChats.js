@@ -14,8 +14,9 @@ import {
 } from "@chakra-ui/react";
 import writeIcon from "../assets/write.png";
 import ChatLoading from "./ChatLoading";
-import { getSender } from "../config/ChatLogic";
+import { getSender, getSenderFull } from "../config/ChatLogic";
 import GroupChatDrawer from "./misc/GroupChatDrawer";
+
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
@@ -52,7 +53,7 @@ const MyChats = ({ fetchAgain }) => {
       alignItems="flex-end"
       bg="#212121"
       w={{ base: "100%", md: "32%" }}
-      height="100%"
+      height="80%"
       minHeight="100%"
       borderWidth="1px"
       borderTop={"1px solid #212121"}
@@ -100,7 +101,9 @@ const MyChats = ({ fetchAgain }) => {
               >
                 <Avatar.Root marginRight="20px">
                   <Avatar.Fallback name={user.name} />
-                  <Avatar.Image src={user.pic} />
+                  <Avatar.Image
+                    src={getSenderFull(loggedUser, chat.users).pic}
+                  />
                 </Avatar.Root>
                 <Stack>
                   <Text>
@@ -130,7 +133,7 @@ const MyChats = ({ fetchAgain }) => {
         <Menu.Trigger asChild>
           <Button
             position="absolute"
-            bottom="15px"
+            bottom="40px"
             variant="ghost"
             width="55px"
             height="55px"

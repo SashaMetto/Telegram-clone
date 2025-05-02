@@ -8,16 +8,20 @@ import searchIcon from "../assets/chatSearchIcon.png";
 import menuIcon from "../assets/chatMenuIcon.png";
 import sendIcon from "../assets/sendIcon.png";
 import { CiFaceSmile } from "react-icons/ci";
-import { IconContext } from "react-icons";
 import { GoPaperclip } from "react-icons/go";
 import { Toaster, toaster } from "../components/ui/toaster";
 import ScrollableChat from "./ScrollableChat";
 import "../App.css";
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat, setSelectedChat, user } = ChatState();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -34,6 +38,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         config
       );
       setMessages(data);
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toaster.create({
         description: `Не удалось загрузить сообщения`,
@@ -43,8 +48,21 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
+    selectedChatCompare = selectedChat;
   }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      setMessages([...messages, newMessageRecieved]);
+    });
+  });
 
   const sendMessage = async (event) => {
     if (newMessage) {
@@ -64,6 +82,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
+
+        socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
         toaster.create({
@@ -108,10 +128,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           </div>
           <Box
             display="flex"
+            position={"absolute"}
             flexDir="row"
             alignItems={"center"}
             justifyContent="flex-end"
-            bottom="15px"
+            bottom="45px"
             width="50vw"
             height="60px"
           >

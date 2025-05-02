@@ -4,6 +4,7 @@
   min-height: 100vh;
   display: flex;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 input:focus {

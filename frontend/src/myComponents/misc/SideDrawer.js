@@ -22,7 +22,7 @@ import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
 
 const SideDrawer = () => {
-  const [userSearch, setUserSearch] = useState("");
+  const [userSearch, setUserSearch] = useState();
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
@@ -138,7 +138,9 @@ const SideDrawer = () => {
                 <Menu.Item value="new-txt-e">Мои истории</Menu.Item>
                 <Drawer.Root placement="start" size="xs">
                   <Drawer.Trigger asChild>
-                    <Menu.Item value="new-txt-f">Контакты</Menu.Item>
+                    <Menu.Item value="new-txt-f" cursor={"pointer"}>
+                      Контакты
+                    </Menu.Item>
                   </Drawer.Trigger>
                   <Portal>
                     <Drawer.Backdrop />
@@ -185,7 +187,11 @@ const SideDrawer = () => {
                   </Portal>
                 </Drawer.Root>
                 <Menu.Item value="new-txt-g">Настройки</Menu.Item>
-                <Menu.Item value="new-txt-h" onClick={logoutHandler}>
+                <Menu.Item
+                  value="new-txt-h"
+                  onClick={logoutHandler}
+                  cursor={"pointer"}
+                >
                   Выйти
                 </Menu.Item>
               </Menu.Content>
@@ -205,7 +211,7 @@ const SideDrawer = () => {
           padding="12px 20px 12px 50px"
           value={userSearch}
           onChange={(e) => setUserSearch(e.target.value)}
-          width="370px"
+          width="90%"
           marginRight="20px"
           marginTop="5px"
         />
