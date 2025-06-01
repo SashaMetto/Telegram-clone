@@ -33,3 +33,9 @@ button:focus {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+#checkboxGroup {
+  accent-color: #8774e1;
+  width: 18px;
+  height: 18px;
+  margin-right: 15px;
+}
