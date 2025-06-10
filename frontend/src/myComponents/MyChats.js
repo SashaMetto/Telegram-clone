@@ -13,9 +13,13 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import writeIcon from "../assets/write.png";
+import channelIcon from "../assets/channel.png";
+import groupIcon from "../assets/group.png";
+import singleChatIcon from "../assets/singlechat.png";
 import ChatLoading from "./ChatLoading";
 import { getSender, getSenderFull } from "../config/ChatLogic";
 import GroupChatDrawer from "./misc/GroupChatDrawer";
+import SingleChatDrawer from "./misc/SingleChatDrawer";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
@@ -52,11 +56,12 @@ const MyChats = ({ fetchAgain }) => {
       flexDirection="column"
       alignItems="flex-end"
       bg="#212121"
-      w={{ base: "100%", md: "32%" }}
-      height="80%"
-      minHeight="100%"
+      w={{ base: "100vw", md: "40vw" }}
+      maxWidth={{ base: "100%", md: "400px" }}
+      height="calc(100vh - (45px))"
       borderWidth="1px"
       borderTop={"1px solid #212121"}
+      overflowY={"scroll"}
     >
       <Box
         fontSize="15px"
@@ -69,10 +74,9 @@ const MyChats = ({ fetchAgain }) => {
         p={4}
         borderRadius="lg"
         background="#212121"
-        overflowY="hidden"
       >
         {chats ? (
-          <Stack overflowY="scroll" w="100%">
+          <Stack w="100%">
             {chats.map((chat) => (
               <Box
                 onClick={(e) => {
@@ -133,7 +137,7 @@ const MyChats = ({ fetchAgain }) => {
         <Menu.Trigger asChild>
           <Button
             position="absolute"
-            bottom="40px"
+            bottom="15px"
             variant="ghost"
             width="55px"
             height="55px"
@@ -148,10 +152,12 @@ const MyChats = ({ fetchAgain }) => {
         </Menu.Trigger>
         <Portal>
           <Menu.Positioner>
-            <Menu.Content>
-              <Menu.Item value="new-channel">Создать канал</Menu.Item>
+            <Menu.Content backgroundColor={"#212121"}>
+              <Menu.Item value="new-channel">
+                <img src={channelIcon}></img>Создать канал
+              </Menu.Item>
               <GroupChatDrawer></GroupChatDrawer>
-              <Menu.Item value="new-chat">Начать личный чат</Menu.Item>
+              <SingleChatDrawer></SingleChatDrawer>
             </Menu.Content>
           </Menu.Positioner>
         </Portal>

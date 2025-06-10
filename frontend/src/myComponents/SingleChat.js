@@ -7,6 +7,7 @@ import UserListItem from "./UserAvatar/UserListItem";
 import searchIcon from "../assets/chatSearchIcon.png";
 import menuIcon from "../assets/chatMenuIcon.png";
 import sendIcon from "../assets/sendIcon.png";
+import backIcon from "../assets/arrowback.png";
 import { CiFaceSmile } from "react-icons/ci";
 import { GoPaperclip } from "react-icons/go";
 import { Toaster, toaster } from "../components/ui/toaster";
@@ -64,7 +65,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     });
   });
 
-  const sendMessage = async (event) => {
+  const sendMessage = async () => {
     if (newMessage) {
       try {
         const config = {
@@ -103,83 +104,108 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       {selectedChat ? (
         <>
           {" "}
-          <Box
-            display="flex"
-            background="#212121"
-            width={"100%"}
-            height="55px"
-            padding={0}
-            paddingLeft={"15px"}
+          <div
+            style={{
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <UserListItem
-              key={user._id}
-              user={getSenderFull(user, selectedChat.users)}
-              handleFunction={() => {}}
-            />
-            <Button variant="ghost" marginTop="8px">
-              <img src={searchIcon} width="20px" height="20px" />
-            </Button>
-            <Button variant="ghost" marginTop="7px" marginRight="12px">
-              <img src={menuIcon} width="17px" height="17px" />
-            </Button>
-          </Box>
-          <div className="chat-div">
-            <ScrollableChat messages={messages} />
-          </div>
-          <Box
-            display="flex"
-            position={"absolute"}
-            flexDir="row"
-            alignItems={"center"}
-            justifyContent="flex-end"
-            bottom="45px"
-            width="50vw"
-            height="60px"
-          >
-            <Button
-              variant="ghost"
-              backgroundColor={"rgb(33,33,33)"}
-              height={"60px"}
-              width={"50px"}
-              padding={"0"}
-              borderRadius={"20px 0 0 20px"}
-            >
-              <CiFaceSmile />
-            </Button>
-            <Input
-              placeholder="Сообщение"
-              variant="subtle"
-              height={"60px"}
-              backgroundColor={"rgb(33,33,33)"}
-              borderRadius={"0"}
-              onChange={typingHandler}
-              value={newMessage}
-            />
-            <Button
-              variant="ghost"
-              backgroundColor={"rgb(33,33,33)"}
-              height={"60px"}
-              width={"50px"}
-              padding={"0"}
-              borderRadius={" 0 20px 20px 0 "}
-            >
-              <GoPaperclip color="#aaaaaa" />
-            </Button>
-            <Button
-              variant="ghost"
-              width="55px"
+            <Box
+              display="flex"
+              background="#212121"
+              width={"100%"}
               height="55px"
-              borderRadius="50%"
-              bg="#cc73e1"
-              marginRight="20px"
-              marginBottom="5px"
-              marginLeft="10px"
-              padding="0px"
-              onClick={sendMessage}
+              padding={0}
+              paddingLeft={"15px"}
             >
-              <img src={sendIcon} width="25px" height="25px" />
-            </Button>
-          </Box>
+              <Button
+                variant="ghost"
+                marginTop="8px"
+                marginRight={"10px"}
+                display={{ base: "flex", md: "none" }}
+                onClick={() => setSelectedChat("")}
+              >
+                <img src={backIcon} width="20px" height="20px" />
+              </Button>
+              <UserListItem
+                key={user._id}
+                user={getSenderFull(user, selectedChat.users)}
+                handleFunction={() => {}}
+              />
+              <Button variant="ghost" marginTop="8px">
+                <img src={searchIcon} width="20px" height="20px" />
+              </Button>
+              <Button variant="ghost" marginTop="7px" marginRight="12px">
+                <img src={menuIcon} width="17px" height="17px" />
+              </Button>
+            </Box>
+            <div
+              className="chat-div"
+              style={{
+                height: "calc(100vh - (60px + 60px + 20px))",
+                width: "95%",
+                paddingBottom: "10px",
+              }}
+            >
+              <ScrollableChat messages={messages} />
+            </div>
+            <Box
+              display="flex"
+              flexDir="row"
+              alignItems={"center"}
+              justifyContent="flex-end"
+              width="95%"
+              height="60px"
+              marginBottom={"20px"}
+            >
+              <Button
+                variant="ghost"
+                backgroundColor={"rgb(33,33,33)"}
+                height={"60px"}
+                width={"50px"}
+                padding={"0"}
+                borderRadius={"20px 0 0 20px"}
+              >
+                <CiFaceSmile />
+              </Button>
+              <Input
+                placeholder="Сообщение"
+                variant="subtle"
+                height={"60px"}
+                backgroundColor={"rgb(33,33,33)"}
+                borderRadius={"0"}
+                onChange={typingHandler}
+                value={newMessage}
+              />
+              <Button
+                variant="ghost"
+                backgroundColor={"rgb(33,33,33)"}
+                height={"60px"}
+                width={"50px"}
+                padding={"0"}
+                borderRadius={" 0 20px 20px 0 "}
+              >
+                <GoPaperclip color="#aaaaaa" />
+              </Button>
+              <Button
+                variant="ghost"
+                width="55px"
+                height="55px"
+                borderRadius="50%"
+                bg="#cc73e1"
+                marginRight="20px"
+                marginBottom="5px"
+                marginLeft="10px"
+                padding="0px"
+                onClick={sendMessage}
+              >
+                <img src={sendIcon} width="25px" height="25px" />
+              </Button>
+            </Box>
+          </div>
         </>
       ) : (
         <></>

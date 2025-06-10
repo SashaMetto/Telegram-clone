@@ -11,6 +11,8 @@ const ChatPage = () => {
   return (
     <div
       style={{
+        display: "flex",
+        flexDirection: "row",
         width: "100%",
         backgroundImage: `url(${backgroundImage})`,
         backgroundPosition: "center",
@@ -18,14 +20,11 @@ const ChatPage = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {user && <SideDrawer />}
-      <Box
-        display="flex"
-        justifyContent={"space-between"}
-        width="100%"
-        height="94%"
-      >
+      <Box display={"flex"} flexDirection={"column"}>
+        {user && <SideDrawer />}
         {user && <MyChats fetchAgain={fetchAgain} />}
+      </Box>
+      <Box width="100%">
         {user && (
           <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
         )}

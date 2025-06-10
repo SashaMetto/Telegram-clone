@@ -98,7 +98,7 @@ const SideDrawer = () => {
       <Box
         display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
         background="#212121"
-        width="32%"
+        width="100%"
       >
         <Menu.Root>
           <Menu.Trigger asChild>
