@@ -14,8 +14,7 @@ import {
 } from "@chakra-ui/react";
 import writeIcon from "../assets/write.png";
 import channelIcon from "../assets/channel.png";
-import groupIcon from "../assets/group.png";
-import singleChatIcon from "../assets/singlechat.png";
+import groupChatIcon from "../assets/groupPlaceholder.png";
 import ChatLoading from "./ChatLoading";
 import { getSender, getSenderFull } from "../config/ChatLogic";
 import GroupChatDrawer from "./misc/GroupChatDrawer";
@@ -24,9 +23,7 @@ import SingleChatDrawer from "./misc/SingleChatDrawer";
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
-  const [warning, setWarning] = useState(true);
   const fetchChats = async () => {
-    // console.log(user._id);
     try {
       const config = {
         headers: {
@@ -69,7 +66,6 @@ const MyChats = ({ fetchAgain }) => {
         w="100%"
         height="100%"
         display="flex"
-        //alignItems="start"
         color="white"
         p={4}
         borderRadius="lg"
@@ -102,11 +98,16 @@ const MyChats = ({ fetchAgain }) => {
                 py={2}
                 px={1}
                 borderRadius="lg"
+                key={chat._id}
               >
                 <Avatar.Root marginRight="20px">
                   <Avatar.Fallback name={user.name} />
                   <Avatar.Image
-                    src={getSenderFull(loggedUser, chat.users).pic}
+                    src={
+                      !chat.isGroupChat
+                        ? getSenderFull(loggedUser, chat.users).pic
+                        : groupChatIcon
+                    }
                   />
                 </Avatar.Root>
                 <Stack>

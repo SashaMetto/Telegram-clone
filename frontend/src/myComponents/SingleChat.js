@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ChatState } from "../Context/ChatProvider";
-import { Text, Box, Button, Input } from "@chakra-ui/react";
+import { Box, Button, Input, Menu, Portal } from "@chakra-ui/react";
 import { getSenderFull } from "../config/ChatLogic";
 import UserListItem from "./UserAvatar/UserListItem";
 import searchIcon from "../assets/chatSearchIcon.png";
 import menuIcon from "../assets/chatMenuIcon.png";
 import sendIcon from "../assets/sendIcon.png";
 import backIcon from "../assets/arrowback.png";
+import removeIcon from "../assets/removeIcon.png";
 import { CiFaceSmile } from "react-icons/ci";
 import { GoPaperclip } from "react-icons/go";
 import { Toaster, toaster } from "../components/ui/toaster";
 import ScrollableChat from "./ScrollableChat";
 import "../App.css";
 import io from "socket.io-client";
+import GroupListItem from "./UserAvatar/GroupListItem";
+import ScrollableGroupChat from "./ScrollableGroupChat";
 
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
@@ -23,6 +26,33 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
+
+  const handleRemove = async (user1) => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.put(
+        `/api/chat/groupremove`,
+        {
+          chatId: selectedChat._id,
+          userId: user1._id,
+        },
+        config
+      );
+
+      user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
+      setFetchAgain(!fetchAgain);
+      fetchMessages();
+    } catch (error) {
+      toaster.create({
+        description: `Ошибка`,
+        type: "error",
+      });
+    }
+  };
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -130,17 +160,52 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               >
                 <img src={backIcon} width="20px" height="20px" />
               </Button>
-              <UserListItem
-                key={user._id}
-                user={getSenderFull(user, selectedChat.users)}
-                handleFunction={() => {}}
-              />
+              {!selectedChat.isGroupChat ? (
+                <UserListItem
+                  key={user._id}
+                  user={getSenderFull(user, selectedChat.users)}
+                  handleFunction={() => {}}
+                />
+              ) : (
+                <>
+                  <GroupListItem
+                    key={user._id}
+                    user={getSenderFull(user, selectedChat.users)}
+                    handleFunction={() => {}}
+                    fetchAgain={fetchAgain}
+                    setFetchAgain={setFetchAgain}
+                  />
+                </>
+              )}
               <Button variant="ghost" marginTop="8px">
                 <img src={searchIcon} width="20px" height="20px" />
               </Button>
-              <Button variant="ghost" marginTop="7px" marginRight="12px">
-                <img src={menuIcon} width="17px" height="17px" />
-              </Button>
+              <Menu.Root>
+                <Menu.Trigger asChild>
+                  <Button variant="ghost" marginTop="7px" marginRight="12px">
+                    <img src={menuIcon} width="17px" height="17px" />
+                  </Button>
+                </Menu.Trigger>
+                <Portal>
+                  <Menu.Positioner>
+                    <Menu.Content backgroundColor={"#212121"}>
+                      <Menu.Item
+                        value="new-txt"
+                        color={"#FF5A5B"}
+                        cursor={"pointer"}
+                        onClick={() => handleRemove(user)}
+                      >
+                        <img
+                          src={removeIcon}
+                          width={"22px"}
+                          height={"22px"}
+                        ></img>
+                        Покинуть чат
+                      </Menu.Item>
+                    </Menu.Content>
+                  </Menu.Positioner>
+                </Portal>
+              </Menu.Root>
             </Box>
             <div
               className="chat-div"
@@ -150,7 +215,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 paddingBottom: "10px",
               }}
             >
-              <ScrollableChat messages={messages} />
+              {selectedChat.isGroupChat ? (
+                <ScrollableGroupChat messages={messages} />
+              ) : (
+                <ScrollableChat messages={messages} />
+              )}
             </div>
             <Box
               display="flex"

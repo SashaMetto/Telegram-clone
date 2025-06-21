@@ -1,14 +1,10 @@
 import React from "react";
 import {
-  Box,
   Button,
   Input,
-  Avatar,
   Menu,
   Drawer,
   Portal,
-  Circle,
-  Float,
   Text,
   Stack,
 } from "@chakra-ui/react";

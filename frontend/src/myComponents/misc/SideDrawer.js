@@ -7,8 +7,6 @@ import {
   Menu,
   Drawer,
   Portal,
-  Circle,
-  Float,
   Text,
 } from "@chakra-ui/react";
 import searchIcon from "../../assets/searchIcon.png";
@@ -22,7 +20,7 @@ import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
 
 const SideDrawer = () => {
-  const [userSearch, setUserSearch] = useState();
+  const [userSearch, setUserSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();

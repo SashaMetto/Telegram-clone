@@ -1,50 +1,55 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, Menu, Drawer, Portal } from "@chakra-ui/react";
+import { Button, Input, Drawer, Portal } from "@chakra-ui/react";
 import backIcon from "../../assets/arrowback.png";
 import searchIcon from "../../assets/searchIcon.png";
-import singleChatIcon from "../../assets/singlechat.png";
+import addGroupUserIcon from "../../assets/addGroupUser.png";
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import { ChatState } from "../../Context/ChatProvider";
 import UserListItem from "../UserAvatar/UserListItem";
 import { toaster } from "../../components/ui/toaster";
 
-const SingleChatDrawer = () => {
+const GroupChatAddUserModal = ({ fetchAgain, setFetchAgain }) => {
   const [userSearch, setUserSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingChat, setLoadingChat] = useState(false);
 
-  const {
-    selectedChat,
-    setSelectedChat,
-    user,
-    chats,
-    setChats,
-    setSelectedUser,
-  } = ChatState();
+  const { selectedChat, setSelectedChat, user } = ChatState();
 
-  const accessChat = async (userId, res) => {
-    console.log(res);
+  const addUserGroup = async (user1) => {
+    if (selectedChat.users.find((u) => u._id === user1._id)) {
+      toaster.create({
+        description: `Пользователь уже в группе`,
+        type: "error",
+      });
+      return;
+    }
+
     try {
-      setLoadingChat(true);
+      setLoading(true);
       const config = {
         headers: {
-          "Content-type": "application/json",
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`/api/chat`, { userId }, config);
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      const { data } = await axios.put(
+        `/api/chat/groupadd`,
+        {
+          chatId: selectedChat._id,
+          userId: user1._id,
+        },
+        config
+      );
+
       setSelectedChat(data);
-      setLoadingChat(false);
-      setSelectedUser(res);
+      setFetchAgain(!fetchAgain);
+      setLoading(false);
     } catch (error) {
       toaster.create({
-        title: "Ошибка",
-        description: error.message,
+        description: `Ошибка`,
         type: "error",
       });
+      setLoading(false);
     }
   };
 
@@ -76,12 +81,24 @@ const SingleChatDrawer = () => {
   }, [userSearch]);
 
   return (
-    <Drawer.Root placement="start" size="xs">
+    <Drawer.Root placement="end" size="xs">
       <Drawer.Trigger asChild>
-        <Menu.Item value="new-chat" cursor={"pointer"}>
-          <img src={singleChatIcon} style={{ marginRight: "5px" }}></img>
-          Начать личный чат
-        </Menu.Item>
+        <Button
+          position="absolute"
+          bottom="15px"
+          variant="ghost"
+          width="55px"
+          height="55px"
+          borderRadius="50%"
+          bg="#8774e1"
+          marginRight="20px"
+          marginBottom="10px"
+          left="240px"
+          padding="0px"
+          onClick={() => {}}
+        >
+          <img src={addGroupUserIcon} width="30px" height="30px" />
+        </Button>
       </Drawer.Trigger>
       <Portal>
         <Drawer.Backdrop />
@@ -116,7 +133,7 @@ const SingleChatDrawer = () => {
                   <UserListItem
                     key={user._id}
                     user={user}
-                    handleFunction={() => accessChat(user._id, user.name)}
+                    handleFunction={() => addUserGroup(user)}
                   />
                 ))
               )}
@@ -128,4 +145,4 @@ const SingleChatDrawer = () => {
   );
 };
 
-export default SingleChatDrawer;
+export default GroupChatAddUserModal;
