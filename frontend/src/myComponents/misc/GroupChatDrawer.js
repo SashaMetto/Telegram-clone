@@ -135,16 +135,11 @@ const GroupChatDrawer = () => {
             >
               <Stack display="flex" flexDirection="row" alignItems="center">
                 <Drawer.Trigger asChild>
-                  <Button variant="ghost">
+                  <Button backgroundColor={"#212121"}>
                     <img src={backIcon} width="20px" height="20px" />
                   </Button>
                 </Drawer.Trigger>
-                <Text
-                  fontSize="20px"
-                  marginBottom="5px"
-                  marginLeft="15px"
-                  fontWeight="bold"
-                >
+                <Text fontSize="20px" marginBottom="5px" fontWeight="bold">
                   Добавить участников
                 </Text>
               </Stack>
@@ -199,7 +194,7 @@ const GroupChatDrawer = () => {
               )}
               <Button
                 position="absolute"
-                bottom="40px"
+                bottom="15px"
                 variant="ghost"
                 width="55px"
                 height="55px"

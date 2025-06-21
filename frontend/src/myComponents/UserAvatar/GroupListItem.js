@@ -120,16 +120,11 @@ const GroupListItem = ({ user, handleFunction, fetchAgain, setFetchAgain }) => {
             <Drawer.Content>
               <Drawer.Header display="flex" background="#212121">
                 <Drawer.Trigger asChild>
-                  <Button background="#212121">
+                  <Button background="#212121" marginTop={"-8px"}>
                     <img src={backIcon} width="20px" height="20px"></img>
                   </Button>
                 </Drawer.Trigger>
-                <Text
-                  fontSize="20px"
-                  marginTop="7px"
-                  marginLeft="15px"
-                  fontWeight="bold"
-                >
+                <Text fontSize="20px" marginLeft="15px" fontWeight="bold">
                   Изменить
                 </Text>
               </Drawer.Header>

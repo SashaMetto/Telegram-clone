@@ -50,4 +50,14 @@ Start the Client
 
 ### Search Users
 
-![Image](https://github.com/user-attachments/assets/2ff0e0c2-ed42-4bd6-8791-dcedf0960794)
+![Image](https://github.com/user-attachments/assets/e5abe071-5a98-4a5e-bbab-c8dfb563b4c5)
+
+### Group Chats
+
+![Image](https://github.com/user-attachments/assets/3a4dce4f-edf3-4af5-a4ee-4fc726c76a2e)
+
+![Image](https://github.com/user-attachments/assets/a26693be-92ed-44ed-b572-604c11f39287)
+
+![Image](https://github.com/user-attachments/assets/77ed4c47-c578-4ee3-a40a-64778b5065ff)
+
+![Image](https://github.com/user-attachments/assets/d16b2e7a-527a-4476-a4ae-728039585e68)

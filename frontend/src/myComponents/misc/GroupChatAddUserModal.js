@@ -106,7 +106,7 @@ const GroupChatAddUserModal = ({ fetchAgain, setFetchAgain }) => {
           <Drawer.Content>
             <Drawer.Header display="flex" background="#212121">
               <Drawer.Trigger asChild>
-                <Button variant="ghost">
+                <Button backgroundColor={"#212121"}>
                   <img src={backIcon} width="20px" height="20px" />
                 </Button>
               </Drawer.Trigger>

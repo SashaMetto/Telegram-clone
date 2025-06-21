@@ -79,7 +79,7 @@ const MemberDrawer = ({ fetchAgain, setFetchAgain }) => {
             >
               <Stack display="flex" flexDirection="row" alignItems="center">
                 <Drawer.Trigger asChild>
-                  <Button variant="ghost">
+                  <Button backgroundColor={"#212121"}>
                     <img src={backIcon} width="20px" height="20px" />
                   </Button>
                 </Drawer.Trigger>
